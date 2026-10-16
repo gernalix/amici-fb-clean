@@ -1,0 +1,9 @@
+# Facebook friend snapshots
+
+Collect friend snapshots with Playwright, compare current and previous lists, and send change reports through the external Telegram provider. CSV/SQLite snapshots, removal visibility checks, failure reports, and the seven day no-change heartbeat are retained.
+
+Use Python 3.11+ and install requirements.txt in a dedicated environment. Browser installation and authentication are separate operator actions. scripts/run_fedora.sh accepts PYTHON_BIN and forwards CLI arguments; it defaults to headless operation. Configuration is described in .env.example. Set AMICI_FB_STORAGE_STATE, AMICI_FB_CHROMIUM_PROFILE and AMICI_FB_OUTPUT_DIR for private session and output locations. Optional eccezioni.ini follows the application's existing ConfigParser contract and remains private.
+
+Telegram credentials remain in the external native provider: TELEGRAM_NOTIFY_CONFIG selects the environment file, defaulting to the user's codex/secrets/telegram.env configuration. Existing canonical field names and environment aliases are retained. scripts/configure_telegram_notify.sh validates ownership, mode 600 and required fields without displaying values. Notification transport, task reports and optional Kuma heartbeat support remain available. systemd files are user-unit templates; adjust checkout/interpreter paths before installing. scripts/install_telegram_notify_system.sh is an optional system installation helper and requires operator privileges.
+
+Run python -B tests/run_offline.py. Tests use synthetic friends and mocked browser/notification transports. They do not establish a login or send notifications. No session, friends, runtime configuration, historical archive or operational report is included. The original private repository retains these materials and its full history, including the three historical binary objects.

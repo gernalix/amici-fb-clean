@@ -1,0 +1,23 @@
+[Unit]
+Description=amici_fb daily Facebook friends snapshot
+Wants=network-online.target
+After=network-online.target
+OnFailure=amici-fb-alert.service
+StartLimitIntervalSec=20min
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/projects/amici_fb
+Environment=PYTHONUNBUFFERED=1
+Environment=TELEGRAM_NOTIFY_CONFIG=%h/.config/codex/secrets/telegram.env
+Environment=AMICI_FB_STORAGE_STATE=%h/.local/share/amici_fb/fb_storage_state.json
+Environment=AMICI_FB_CHROMIUM_PROFILE=%h/.local/share/amici_fb/chromium-profile
+Environment=AMICI_FB_OUTPUT_DIR=%h/.local/share/amici_fb/data
+EnvironmentFile=-%h/.config/codex/secrets/telegram.env
+ExecStart=%h/.local/bin/amici_fb
+Restart=on-failure
+RestartSec=60
+TimeoutStartSec=10min
+NoNewPrivileges=true
+PrivateTmp=true
